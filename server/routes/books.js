@@ -90,27 +90,29 @@ router.delete('/delete/:id', function(req, res){
   });//ends pool connect
 });//ends delete router
 
-
+//
 //delete/48  /:id tells us that it was an optional perameter
 router.put('/save/:id', function(req, res){
   var bookID = req.params.id; //finds the optional parameter
   var bookObject = req.body;
   console.log('book id to save: ', bookID);
 
-  pool.connect(function(errorConnectingToDatabase, client, done){
-    if(errorConnectingToDatabase) {
+  pool.connect(function(err, client, done){
+    if(err) {
       // There was an error connecting to the database
-      console.log('Error connecting to database: ', errorConnectingToDatabase);
+      console.log('Error connecting to database: ', err);
       res.sendStatus(500);
+    } else if (bookObject.edition != parseInt(bookObject.edition)){
+      res.status(500).send("ENTER A NUMBER SILLY!");
     } else {
       // We connected to the database!!!
       // Now, we're gonna' git stuff!!!!!
       client.query('UPDATE books SET title=$1, author=$2, edition=$3, publisher=$4 WHERE id=$5;', //PARAM 1 $1 tells PG that we're looking for a variable
       [bookObject.title, bookObject.author, bookObject.edition, bookObject.publisher, bookID], //PARAM 2 variable that we're adding to the PG query (Replaces $1 in the query)
-      function(errorMakingQuery, result){ //PARAM 3 the function that is run after the query takes place
+      function(err, result){ //PARAM 3 the function that is run after the query takes place
         done();
-        if(errorMakingQuery) {
-          console.log('Error making the database query: ', errorMakingQuery);
+        if(err) {
+          console.log('no edition?', err);
           res.sendStatus(500);
         } else {
           res.sendStatus(200);

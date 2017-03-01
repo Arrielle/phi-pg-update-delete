@@ -68,12 +68,21 @@ $(document).ready(function(){
     url: '/books/save/' + bookIDSave,
     data: bookObjectToSave,// books/delete/48 (where 48 is bookIDDelete)
     success: function(response){
+      $('#error').empty();
       console.log(response);
       getBookData();
-    }//end success
+    },
+    error: function(err){
+      $('#error').empty();
+      error = err.responseText;
+      $('#error').append(error);
+    }
+  //end success
   });//end ajax
   });//end on click
 
+//if edition input is != integer
+//
 
 $('#bookShelf').on('click', '.deleteButton', function(){
   var bookIDDelete = $(this).parent().parent().data().id;
