@@ -105,8 +105,8 @@ router.put('/save/:id', function(req, res){
     } else {
       // We connected to the database!!!
       // Now, we're gonna' git stuff!!!!!
-      client.query('UPDATE books SET title=$1 WHERE id=$2;', //PARAM 1 $1 tells PG that we're looking for a variable
-      [bookObject.title, bookID], //PARAM 2 variable that we're adding to the PG query (Replaces $1 in the query)
+      client.query('UPDATE books SET title=$1, author=$2, edition=$3, publisher=$4 WHERE id=$5;', //PARAM 1 $1 tells PG that we're looking for a variable
+      [bookObject.title, bookObject.author, bookObject.edition, bookObject.publisher, bookID], //PARAM 2 variable that we're adding to the PG query (Replaces $1 in the query)
       function(errorMakingQuery, result){ //PARAM 3 the function that is run after the query takes place
         done();
         if(errorMakingQuery) {

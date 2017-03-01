@@ -53,10 +53,13 @@ $(document).ready(function(){
     var titleOfBookToSave = $(this).parent().parent().find('.bookTitle').val();
     var authorOfBookToSave = $(this).parent().parent().find('.bookAuthor').val();
     var editionOfBookToSave = $(this).parent().parent().find('.bookEdition').val();
-    var publisherOfBookToSave = $(this).parent().parent().find('.bookEdition').val();
+    var publisherOfBookToSave = $(this).parent().parent().find('.bookPublisher').val();
     //create a book objects
     var bookObjectToSave = {
-      title: titleOfBookToSave
+      title: titleOfBookToSave,
+      author: authorOfBookToSave,
+      edition: editionOfBookToSave,
+      publisher: publisherOfBookToSave
     }
     // var bookNewSaveObject =
     console.log('SaveButton has ID: ', bookIDSave);
