@@ -61,4 +61,33 @@ router.post('/new', function(req, res){
   });
 });
 
+
+//delete/48  /:id tells us that it was an optional perameter
+router.delete('/delete/:id', function(req, res){
+  var bookID = req.params.id;
+  console.log('book id to delete: ', bookID);
+
+  pool.connect(function(errorConnectingToDatabase, client, done){
+    if(errorConnectingToDatabase) {
+      // There was an error connecting to the database
+      console.log('Error connecting to database: ', errorConnectingToDatabase);
+      res.sendStatus(500);
+    } else {
+      // We connected to the database!!!
+      // Now, we're gonna' git stuff!!!!!
+      client.query('DELETE FROM books WHERE id=$1;', //PARAM 1 $1 tells PG that we're looking for a variable
+        [bookID], //PARAM 2 variable that we're adding to the PG query
+        function(errorMakingQuery, result){ //PARAM 3
+          done();
+          if(errorMakingQuery) {
+            console.log('Error making the database query: ', errorMakingQuery);
+            res.sendStatus(500);
+          } else {
+            res.sendStatus(201);
+          }//ends client.query function
+        });//ends client.query
+      } //ends ppol connect function
+    });//ends pool connect
+});//ends delete router
+
 module.exports = router;
